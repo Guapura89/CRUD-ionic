@@ -1,0 +1,26 @@
+.wellcome__img {
+  width: 50%;
+  margin: 100px auto;
+  animation-name: rotation;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  position: relative;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

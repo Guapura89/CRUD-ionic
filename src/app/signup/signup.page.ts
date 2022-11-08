@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import {
   FormGroup,
   Validators,
@@ -17,7 +17,8 @@ export class SignupPage implements OnInit {
 
   constructor(
     public fb: FormBuilder,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController
   ) {
     this.formSignup = this.fb.group({
       name: new FormControl('', Validators.required),
@@ -25,7 +26,6 @@ export class SignupPage implements OnInit {
     });
   }
   async presentAlert() {
-    const f = this.formSignup.value;
     if (this.formSignup.invalid) {
       const alert = await this.alertController.create({
         header: 'Failed',
@@ -36,16 +36,26 @@ export class SignupPage implements OnInit {
       });
 
       await alert.present();
+      return;
     } else {
-      const alertG = await this.alertController.create({
-        header: 'All right',
-        subHeader: 'Go back to login',
-        buttons: ['OK'],
-        backdropDismiss: false,
-      });
-
-      await alertG.present();
+      const f = this.formSignup.value;
+      const user = {
+        userName: f.name,
+        pass: f.pass,
+      };
+      localStorage.setItem('user', JSON.stringify(user));
+      this.presentToast();
     }
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Usuario guardado',
+      duration: 1500,
+      position: 'top',
+    });
+
+    await toast.present();
   }
 
   ngOnInit() {}
